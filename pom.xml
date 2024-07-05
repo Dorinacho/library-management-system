@@ -28,7 +28,7 @@
     </scm>
     <properties>
         <java.version>21</java.version>
-		<mapstruct.version>1.5.5.Final</mapstruct.version>
+        <mapstruct.version>1.5.5.Final</mapstruct.version>
         <hibernate-core.version>6.5.2.Final</hibernate-core.version>
         <flyway-postgresql.version>10.15.2</flyway-postgresql.version>
     </properties>
@@ -66,11 +66,11 @@
             <artifactId>spring-security-test</artifactId>
             <scope>test</scope>
         </dependency>
-		<dependency>
-			<groupId>org.mapstruct</groupId>
-			<artifactId>mapstruct</artifactId>
-			<version>${mapstruct.version}</version>
-		</dependency>
+        <dependency>
+            <groupId>org.mapstruct</groupId>
+            <artifactId>mapstruct</artifactId>
+            <version>${mapstruct.version}</version>
+        </dependency>
         <dependency>
             <groupId>org.hibernate.orm</groupId>
             <artifactId>hibernate-core</artifactId>
@@ -86,6 +86,16 @@
 
     <build>
         <plugins>
+            <plugin>
+                <groupId>org.flywaydb</groupId>
+                <artifactId>flyway-maven-plugin</artifactId>
+                <version>${flyway.version}</version>
+                <configuration>
+                    <url>jdbc:postgresql://localhost:5432/library</url>
+                    <user>librarian</user>
+                    <password>myPass123</password>
+                </configuration>
+            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
