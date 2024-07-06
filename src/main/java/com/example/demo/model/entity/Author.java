@@ -1,6 +1,5 @@
 package com.example.demo.model.entity;
 
-import jakarta.persistence.Cacheable;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -11,9 +10,17 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import java.util.List;
 import java.util.UUID;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
+@Getter
 @Entity
-@Table
+@Table(name = "authors")
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Author {
 
   @Id

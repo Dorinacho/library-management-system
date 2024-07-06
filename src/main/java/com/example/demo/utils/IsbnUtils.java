@@ -2,9 +2,9 @@ package com.example.demo.utils;
 
 import java.util.Random;
 
-public final class Isbn {
+public final class IsbnUtils {
 
-  private Isbn() {
+  private IsbnUtils() {
   }
 
   private static final String PREFIX_ELEMENT = "978";
