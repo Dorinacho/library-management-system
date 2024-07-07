@@ -45,13 +45,9 @@ public class BookServiceImpl implements BookService {
   @Override
   public void updateBook(UUID bookId, CreateBookDto createBookDto) {
     Author author = authorRepository.findById(createBookDto.getAuthorId()).orElseThrow();
-    Book book = Book.builder()
-        .id(bookId)
-        .isbn(createBookDto.getIsbn())
-        .title(createBookDto.getTitle())
-        .description(createBookDto.getDescription())
-        .author(author)
-        .build();
+    Book book = bookMapper.toBook(createBookDto);
+    book.setId(bookId);
+    book.setAuthor(author);
     bookRepository.save(book);
   }
 
