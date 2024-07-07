@@ -1,5 +1,6 @@
-package com.example.demo.model.dto;
+package com.example.demo.model.dto.book;
 
+import com.example.demo.model.dto.author.AuthorDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
