@@ -1,6 +1,6 @@
 package com.example.demo.mapper;
 
-import com.example.demo.model.dto.AuthorDto;
+import com.example.demo.model.dto.author.AuthorDto;
 import com.example.demo.model.entity.Author;
 import org.mapstruct.Mapper;
 
