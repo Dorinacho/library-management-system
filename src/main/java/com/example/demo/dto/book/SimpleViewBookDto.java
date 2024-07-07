@@ -1,6 +1,5 @@
-package com.example.demo.model.dto.book;
+package com.example.demo.dto.book;
 
-import com.example.demo.model.dto.author.AuthorDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -12,10 +11,9 @@ import lombok.Setter;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class BookDto {
+public class SimpleViewBookDto {
 
   private String title;
   private String isbn;
   private String description;
-  private AuthorDto author;
 }

@@ -1,4 +1,4 @@
-package com.example.demo.model.dto.book;
+package com.example.demo.dto.book;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -15,7 +15,7 @@ import org.hibernate.validator.constraints.Length;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class CreateBookDto {
+public class SaveBookDto {
 
   @NotNull(message = "The book author cannot be null")
   private UUID authorId;

@@ -1,4 +1,4 @@
-package com.example.demo.model.dto.author;
+package com.example.demo.dto.author;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
@@ -13,7 +13,7 @@ import org.hibernate.validator.constraints.Length;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class AuthorDto {
+public class SaveAuthorDto {
 
   @NotBlank(message = "First name cannot be null")
   private String firstName;

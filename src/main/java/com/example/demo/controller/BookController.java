@@ -1,7 +1,7 @@
 package com.example.demo.controller;
 
-import com.example.demo.model.dto.book.BookDto;
-import com.example.demo.model.dto.book.CreateBookDto;
+import com.example.demo.dto.book.SaveBookDto;
+import com.example.demo.dto.book.ViewBookDto;
 import com.example.demo.service.BookService;
 import jakarta.validation.Valid;
 import java.util.List;
@@ -25,25 +25,25 @@ public class BookController {
   private final BookService bookService;
 
   @GetMapping
-  public ResponseEntity<List<BookDto>> getAllBooks() {
-    List<BookDto> books = bookService.getAllBooks();
+  public ResponseEntity<List<ViewBookDto>> getAllBooks() {
+    List<ViewBookDto> books = bookService.getAllBooks();
     return ResponseEntity.ok().body(books);
   }
 
   @GetMapping("/{bookId}")
-  public ResponseEntity<BookDto> getBookById(@PathVariable(name = "bookId")UUID bookId) {
-    BookDto book = bookService.getBookById(bookId);
+  public ResponseEntity<ViewBookDto> getBookById(@PathVariable(name = "bookId")UUID bookId) {
+    ViewBookDto book = bookService.getBookById(bookId);
     return ResponseEntity.ok().body(book);
   }
 
   @PostMapping
-  public void addBook(@Valid @RequestBody CreateBookDto createBookDto) {
-    bookService.addBook(createBookDto);
+  public void addBook(@Valid @RequestBody SaveBookDto saveBookDto) {
+    bookService.addBook(saveBookDto);
   }
 
   @PutMapping("/{bookId}")
-  public void updateBook(@Valid @RequestBody CreateBookDto createBookDto, @PathVariable(name = "bookId")UUID bookId) {
-    bookService.updateBook(bookId, createBookDto);
+  public void updateBook(@Valid @RequestBody SaveBookDto saveBookDto, @PathVariable(name = "bookId")UUID bookId) {
+    bookService.updateBook(bookId, saveBookDto);
   }
 
   @DeleteMapping("/{bookId}")

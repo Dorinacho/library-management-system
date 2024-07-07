@@ -1,4 +1,4 @@
-package com.example.demo.model.entity;
+package com.example.demo.entity;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -28,11 +28,11 @@ public class Author {
   @Id
   @GeneratedValue(strategy = GenerationType.UUID)
   private UUID id;
-  @Column
+  @Column(nullable = false)
   private String firstName;
-  @Column
+  @Column(nullable = false)
   private String lastName;
-  @Column
+  @Column(nullable = false)
   private String bio;
 
   @OneToMany(
@@ -40,5 +40,4 @@ public class Author {
       cascade = CascadeType.ALL,
       orphanRemoval = true)
   private List<Book> books;
-
 }

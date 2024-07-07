@@ -1,19 +1,19 @@
 package com.example.demo.service;
 
-import com.example.demo.model.dto.book.BookDto;
-import com.example.demo.model.dto.book.CreateBookDto;
+import com.example.demo.dto.book.SaveBookDto;
+import com.example.demo.dto.book.ViewBookDto;
 import java.util.List;
 import java.util.UUID;
 
 public interface BookService {
 
-  List<BookDto> getAllBooks();
+  List<ViewBookDto> getAllBooks();
 
-  void addBook(CreateBookDto createBookDto);
+  void addBook(SaveBookDto saveBookDto);
 
-  void updateBook(UUID bookId, CreateBookDto createBookDto);
+  void updateBook(UUID bookId, SaveBookDto saveBookDto);
 
   void deleteBook(UUID bookId);
 
-  BookDto getBookById(UUID bookId);
+  ViewBookDto getBookById(UUID bookId);
 }

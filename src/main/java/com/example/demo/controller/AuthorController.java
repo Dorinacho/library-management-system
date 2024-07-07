@@ -1,6 +1,8 @@
 package com.example.demo.controller;
 
-import com.example.demo.model.dto.author.AuthorDto;
+import com.example.demo.dto.author.SaveAuthorDto;
+import com.example.demo.dto.author.SimpleViewAuthorDto;
+import com.example.demo.dto.author.ViewAuthorDto;
 import com.example.demo.service.AuthorService;
 import java.util.List;
 import java.util.UUID;
@@ -23,25 +25,25 @@ public class AuthorController {
   private final AuthorService authorService;
 
   @GetMapping
-  public ResponseEntity<List<AuthorDto>> getAllAuthors() {
-    List<AuthorDto> authors = authorService.getAllAuthors();
+  public ResponseEntity<List<SimpleViewAuthorDto>> getAllAuthors() {
+    List<SimpleViewAuthorDto> authors = authorService.getAllAuthors();
     return ResponseEntity.ok().body(authors);
   }
 
   @GetMapping("/{authorId}")
-  public ResponseEntity<AuthorDto> getAuthorById(@PathVariable(name = "authorId") UUID authorId) {
-    AuthorDto author = authorService.getAuthorById(authorId);
+  public ResponseEntity<ViewAuthorDto> getAuthorById(@PathVariable(name = "authorId") UUID authorId) {
+    ViewAuthorDto author = authorService.getAuthorById(authorId);
     return ResponseEntity.ok().body(author);
   }
 
   @PostMapping
-  public void addAuthor(@RequestBody AuthorDto authorDto) {
-    authorService.addAuthor(authorDto);
+  public void addAuthor(@RequestBody SaveAuthorDto saveAuthorDto) {
+    authorService.addAuthor(saveAuthorDto);
   }
 
   @PutMapping("/{authorId}")
-  public void updateAuthor(@PathVariable(name = "authorId") UUID authorId, @RequestBody AuthorDto authorDto) {
-    authorService.updateAuthor(authorId, authorDto);
+  public void updateAuthor(@PathVariable(name = "authorId") UUID authorId, @RequestBody SaveAuthorDto saveAuthorDto) {
+    authorService.updateAuthor(authorId, saveAuthorDto);
   }
 
   @DeleteMapping("/{authorId}")
