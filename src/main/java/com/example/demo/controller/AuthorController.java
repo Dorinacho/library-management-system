@@ -4,6 +4,7 @@ import com.example.demo.dto.author.SaveAuthorDto;
 import com.example.demo.dto.author.SimpleViewAuthorDto;
 import com.example.demo.dto.author.ViewAuthorDto;
 import com.example.demo.service.AuthorService;
+import jakarta.validation.Valid;
 import java.util.List;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
@@ -31,18 +32,20 @@ public class AuthorController {
   }
 
   @GetMapping("/{authorId}")
-  public ResponseEntity<ViewAuthorDto> getAuthorById(@PathVariable(name = "authorId") UUID authorId) {
+  public ResponseEntity<ViewAuthorDto> getAuthorById(
+      @PathVariable(name = "authorId") UUID authorId) {
     ViewAuthorDto author = authorService.getAuthorById(authorId);
     return ResponseEntity.ok().body(author);
   }
 
   @PostMapping
-  public void addAuthor(@RequestBody SaveAuthorDto saveAuthorDto) {
+  public void addAuthor(@Valid @RequestBody SaveAuthorDto saveAuthorDto) {
     authorService.addAuthor(saveAuthorDto);
   }
 
   @PutMapping("/{authorId}")
-  public void updateAuthor(@PathVariable(name = "authorId") UUID authorId, @RequestBody SaveAuthorDto saveAuthorDto) {
+  public void updateAuthor(@Valid @RequestBody SaveAuthorDto saveAuthorDto,
+      @PathVariable(name = "authorId") UUID authorId) {
     authorService.updateAuthor(authorId, saveAuthorDto);
   }
 
