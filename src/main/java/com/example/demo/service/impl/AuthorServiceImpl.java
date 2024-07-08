@@ -1,8 +1,11 @@
 package com.example.demo.service.impl;
 
 import com.example.demo.mapper.AuthorMapper;
-import com.example.demo.model.dto.author.AuthorDto;
-import com.example.demo.model.entity.Author;
+import com.example.demo.mapper.BookMapper;
+import com.example.demo.dto.author.SaveAuthorDto;
+import com.example.demo.dto.author.SimpleViewAuthorDto;
+import com.example.demo.dto.author.ViewAuthorDto;
+import com.example.demo.entity.Author;
 import com.example.demo.repository.AuthorRepository;
 import com.example.demo.service.AuthorService;
 import java.util.List;
@@ -16,31 +19,32 @@ public class AuthorServiceImpl implements AuthorService {
 
   private final AuthorRepository authorRepository;
   private final AuthorMapper authorMapper;
+  private final BookMapper bookMapper;
 
   @Override
-  public AuthorDto getAuthorById(UUID authorId) {
+  public ViewAuthorDto getAuthorById(UUID authorId) {
     Author author = authorRepository.findById(authorId).orElseThrow();
-    return authorMapper.toAuthorDto(author);
+    return authorMapper.toViewAuthorDto(author);
   }
 
   @Override
-  public List<AuthorDto> getAllAuthors() {
+  public List<SimpleViewAuthorDto> getAllAuthors() {
     return authorRepository.findAll().stream()
-        .map(authorMapper::toAuthorDto)
+        .map(authorMapper::toSimpleViewAuthorDto)
         .toList();
   }
 
   @Override
-  public void addAuthor(AuthorDto authorDto) {
-    Author author = authorMapper.toAuthor(authorDto);
+  public void addAuthor(SaveAuthorDto saveAuthorDto) {
+    Author author = authorMapper.toAuthor(saveAuthorDto);
     authorRepository.save(author);
   }
 
   @Override
-  public void updateAuthor(UUID authorId, AuthorDto authorDto) {
-    Author author = authorMapper.toAuthor(authorDto);
-    author.setId(authorId);
-    authorRepository.save(author);
+  public void updateAuthor(UUID authorId, SaveAuthorDto saveAuthorDto) {
+    Author oldAuthor = authorRepository.findById(authorId).orElseThrow();
+    Author updatedAuthor = authorMapper.toAuthor(oldAuthor, saveAuthorDto);
+    authorRepository.save(updatedAuthor);
   }
 
   @Override

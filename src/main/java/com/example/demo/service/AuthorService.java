@@ -1,18 +1,20 @@
 package com.example.demo.service;
 
-import com.example.demo.model.dto.author.AuthorDto;
+import com.example.demo.dto.author.SaveAuthorDto;
+import com.example.demo.dto.author.SimpleViewAuthorDto;
+import com.example.demo.dto.author.ViewAuthorDto;
 import java.util.List;
 import java.util.UUID;
 
 public interface AuthorService {
 
-  AuthorDto getAuthorById(UUID authorId);
+  ViewAuthorDto getAuthorById(UUID authorId);
 
-  List<AuthorDto> getAllAuthors();
+  List<SimpleViewAuthorDto> getAllAuthors();
 
-  void addAuthor(AuthorDto authorDto);
+  void addAuthor(SaveAuthorDto saveAuthorDto);
 
-  void updateAuthor(UUID authorId, AuthorDto authorDto);
+  void updateAuthor(UUID authorId, SaveAuthorDto saveAuthorDto);
 
   void deleteAuthor(UUID authorId);
 }

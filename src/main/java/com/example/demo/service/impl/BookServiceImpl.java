@@ -1,10 +1,10 @@
 package com.example.demo.service.impl;
 
 import com.example.demo.mapper.BookMapper;
-import com.example.demo.model.dto.book.BookDto;
-import com.example.demo.model.dto.book.CreateBookDto;
-import com.example.demo.model.entity.Author;
-import com.example.demo.model.entity.Book;
+import com.example.demo.dto.book.SaveBookDto;
+import com.example.demo.dto.book.ViewBookDto;
+import com.example.demo.entity.Author;
+import com.example.demo.entity.Book;
 import com.example.demo.repository.AuthorRepository;
 import com.example.demo.repository.BookRepository;
 import com.example.demo.service.BookService;
@@ -22,33 +22,31 @@ public class BookServiceImpl implements BookService {
   private final BookMapper bookMapper;
 
   @Override
-  public List<BookDto> getAllBooks() {
+  public List<ViewBookDto> getAllBooks() {
     return bookRepository.findAll().stream()
-        .map(bookMapper::toBookDto)
+        .map(bookMapper::toViewBookDto)
         .toList();
   }
 
   @Override
-  public BookDto getBookById(UUID bookId) {
+  public ViewBookDto getBookById(UUID bookId) {
     Book book = bookRepository.findById(bookId).orElseThrow();
-    return bookMapper.toBookDto(book);
+    return bookMapper.toViewBookDto(book);
   }
 
   @Override
-  public void addBook(CreateBookDto createBookDto) {
-    Author author = authorRepository.findById(createBookDto.getAuthorId()).orElseThrow();
-    Book book = bookMapper.toBook(createBookDto);
+  public void addBook(SaveBookDto saveBookDto) {
+    Author author = authorRepository.findById(saveBookDto.getAuthorId()).orElseThrow();
+    Book book = bookMapper.toBook(saveBookDto);
     book.setAuthor(author);
     bookRepository.save(book);
   }
 
   @Override
-  public void updateBook(UUID bookId, CreateBookDto createBookDto) {
-    Author author = authorRepository.findById(createBookDto.getAuthorId()).orElseThrow();
-    Book book = bookMapper.toBook(createBookDto);
-    book.setId(bookId);
-    book.setAuthor(author);
-    bookRepository.save(book);
+  public void updateBook(UUID bookId, SaveBookDto saveBookDto) {
+    Book oldBook = bookRepository.findById(bookId).orElseThrow();
+    Book updatedBook = bookMapper.toBook(oldBook, saveBookDto);
+    bookRepository.save(updatedBook);
   }
 
   @Override
