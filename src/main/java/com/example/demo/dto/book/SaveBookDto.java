@@ -23,7 +23,7 @@ public class SaveBookDto {
   @NotBlank(message = "The book title cannot be null")
   private String title;
 
-  @Length(min = 17, max = 17, message = "The ISBN should be 17 characters long (including \"-\")")
+  @Length(min = 17, max = 17, message = "The ISBN should be 17 characters long (including '-')")
   @NotBlank(message = "ISBN cannot be null")
   private String isbn;
 

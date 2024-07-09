@@ -1,0 +1,360 @@
+openapi: 3.0.1
+info:
+  title: Library System Management API definition
+  version: v0
+servers:
+  - url: http://localhost:8080
+    description: Locally running server
+paths:
+  "/books":
+    get:
+      tags:
+        - Books controller
+      operationId: getAllBooks
+      description: "Get all the books and data regarding the author of each book"
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  "$ref": "#/components/schemas/ViewBookDto"
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/ErrorResponseDto"
+    post:
+      tags:
+        - Books controller
+      operationId: addBook
+      description: "Add a new book to the database for an already existing author"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/SaveBookDto"
+        required: true
+      responses:
+        '201':
+          description: Created
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/ErrorResponseDto"
+  "/books/{bookId}":
+    get:
+      tags:
+        - Books controller
+      operationId: getBookById
+      description: "Get a book by the specified id and it's author"
+      parameters:
+        - name: bookId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/ViewBookDto"
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/ErrorResponseDto"
+    put:
+      tags:
+        - Books controller
+      operationId: updateBook
+      description: "Update an existing book"
+      parameters:
+        - name: bookId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/SaveBookDto"
+        required: true
+      responses:
+        '200':
+          description: OK
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/ErrorResponseDto"
+    delete:
+      tags:
+        - Books controller
+      operationId: deleteBook
+      description: "Delete a book"
+      parameters:
+        - name: bookId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '204':
+          description: No Content
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/ErrorResponseDto"
+  "/authors":
+    get:
+      tags:
+        - Authors controller
+      operationId: getAllAuthors
+      description: "Get all the authors from the database"
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  "$ref": "#/components/schemas/SimpleViewAuthorDto"
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/ErrorResponseDto"
+    post:
+      tags:
+        - Authors controller
+      operationId: addAuthor
+      description: "Add a new author to the database"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/SaveAuthorDto"
+        required: true
+      responses:
+        '201':
+          description: Created
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/ErrorResponseDto"
+  "/authors/{authorId}":
+    get:
+      tags:
+        - Authors controller
+      operationId: getAuthorById
+      description: "Get an author by the specified id and his books"
+      parameters:
+        - name: authorId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/ViewAuthorDto"
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/ErrorResponseDto"
+    put:
+      tags:
+        - Authors controller
+      operationId: updateAuthor
+      description: "Update an existing author"
+      parameters:
+        - name: authorId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/SaveAuthorDto"
+        required: true
+      responses:
+        '200':
+          description: OK
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/ErrorResponseDto"
+    delete:
+      tags:
+        - Authors controller
+      operationId: deleteAuthor
+      description: "Delete an author and all his books"
+      parameters:
+        - name: authorId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '204':
+          description: No Content
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/ErrorResponseDto"
+
+
+components:
+  schemas:
+    ErrorDetails:
+      type: object
+      description: "This is used to show tha validation errors for each field of a DTO. It can be left null if there are no validation errors"
+      properties:
+        field:
+          type: string
+          example: "title"
+        message:
+          type: string
+          example: "The book title cannot be null"
+    ErrorResponseDto:
+      type: object
+      properties:
+        statusCode:
+          type: integer
+          format: int32
+          example: 200
+        message:
+          type: string
+          example: "Invalid request content."
+        errors:
+          type: array
+          items:
+            "$ref": "#/components/schemas/ErrorDetails"
+    SaveBookDto:
+      required:
+        - authorId
+        - description
+        - isbn
+        - title
+      type: object
+      properties:
+        authorId:
+          type: string
+          format: uuid
+        title:
+          type: string
+          example: "Another fantasy book"
+        isbn:
+          type: string
+          minLength: 17
+          maxLength: 17
+          example: "978-0-7653-4512-4"
+        description:
+          type: string
+          minLength: 20
+          maxLength: 255
+          example: "This is just another generic book description"
+    ViewBookDto:
+      type: object
+      properties:
+        title:
+          type: string
+          example: "Another fantasy book"
+        isbn:
+          type: string
+          example: "978-0-7653-4512-4"
+        description:
+          type: string
+          example: "This is just another generic book description"
+        author:
+          "$ref": "#/components/schemas/SimpleViewAuthorDto"
+    SimpleViewBookDto:
+      type: object
+      properties:
+        title:
+          type: string
+          example: "Another fantasy book"
+        isbn:
+          type: string
+          example: "978-0-7653-4512-4"
+        description:
+          type: string
+          example: "This is just another generic book description"
+    SaveAuthorDto:
+      required:
+        - firstName
+        - lastName
+      type: object
+      properties:
+        firstName:
+          type: string
+          example: "Mark"
+        lastName:
+          type: string
+          example: "Doraemon"
+        bio:
+          type: string
+          maxLength: 255
+          example: "Best author ever"
+    ViewAuthorDto:
+      type: object
+      properties:
+        firstName:
+          type: string
+          example: "Mark"
+        lastName:
+          type: string
+          example: "Doraemon"
+        bio:
+          type: string
+          example: "Best author ever"
+        books:
+          type: array
+          items:
+            "$ref": "#/components/schemas/SimpleViewBookDto"
+    SimpleViewAuthorDto:
+      type: object
+      properties:
+        firstName:
+          type: string
+          example: "Mark"
+        lastName:
+          type: string
+          example: "Doraemon"
+        bio:
+          type: string
+          example: "Best author ever"
