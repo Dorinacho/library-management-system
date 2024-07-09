@@ -8,6 +8,7 @@ import jakarta.validation.Valid;
 import java.util.List;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -38,17 +40,20 @@ public class AuthorController {
     return ResponseEntity.ok().body(author);
   }
 
+  @ResponseStatus(HttpStatus.CREATED)
   @PostMapping
   public void addAuthor(@Valid @RequestBody SaveAuthorDto saveAuthorDto) {
     authorService.addAuthor(saveAuthorDto);
   }
 
+  @ResponseStatus(HttpStatus.OK)
   @PutMapping("/{authorId}")
   public void updateAuthor(@Valid @RequestBody SaveAuthorDto saveAuthorDto,
       @PathVariable(name = "authorId") UUID authorId) {
     authorService.updateAuthor(authorId, saveAuthorDto);
   }
 
+  @ResponseStatus(HttpStatus.NO_CONTENT)
   @DeleteMapping("/{authorId}")
   public void deleteAuthor(@PathVariable(name = "authorId") UUID authorId) {
     authorService.deleteAuthor(authorId);
