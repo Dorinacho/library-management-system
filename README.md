@@ -2,6 +2,25 @@
 
 This is a mock application for a simple Library Management System developed using Spring Boot.
 
+## Personal thoughts
+
+Due to lack of business requirements, I thought the app like this.<br/>
+We can:
+- create:
+  - an author
+  - a book
+- view:
+  - all the authors, but no details about their books
+  - only one author and details about his books
+  - all the books and their authors
+  - only on book and it's author
+- update:
+  - the first name, last name and bio of an author
+  - the title, isbn and description of a book. The author can be changed only with an existing one 
+- delete:
+  - an author and all of his books
+  - a book
+
 ## Requirements
 
 - Java 21
@@ -31,9 +50,5 @@ To build and run the application, use Maven with the Spring Boot plugin:
 ## Database migration
 
 Flyway is used for database migration. It manages and applies database changes.
-
-### Configuration
-
 Database migration is configured to run on startup to ensure the database schema is up to date.
-Ensure proper configuration in the flyway-maven-plugin for database URL, username, and password.
 
